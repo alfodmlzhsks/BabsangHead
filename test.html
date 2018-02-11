@@ -1,0 +1,58 @@
+<HTML lang="ko">
+ <HEAD>
+  <TITLE> 견적내기 </TITLE>
+  <meta charset="UTF-8">
+<script language="javascript">
+ function fn_Calc()
+ {
+  var surang = document.frm1.in_1.value;
+  var garo = document.frm1.in_2.value;
+  var sero = document.frm1.in_3.value;
+  var hidden_val = 0.003;
+  document.frm1.in_4.value = garo * sero * hidden_val;
+  document.frm1.in_5.value = surang;
+  document.frm1.in_6.value = document.frm1.in_4.value * document.frm1.in_5.value;
+ }
+</script>
+ </HEAD>
+ <BODY>
+ 
+ <FORM NAME="frm1">
+ <TABLE WIDTH="800" BORDER="0" CELLADDING="0" CELLSAPCING="0">
+ <tr>
+  <td width="200">&nbsp;</td>
+  <td width="600">견적계산하기</td>
+ </tr>
+ <tr>
+  <td width="200">자동<br>견적</td>
+  <td width="600">
+   <table width="600" border=0 cellpadding="0" cellspacing="0">
+    <Tr>
+     <Td width="100">주문수량 : </td>
+     <td width="100"><input type="text" name="in_1" style="width:80px;">개</td>
+     <td colspan="4" width="400">&nbsp;</td>
+    </tr>
+    <Tr>
+     <td width="100">가로 : </td>
+     <td width="100"><input type="text" name="in_2" style="width:80px;">mm</td>
+     <td width="100">세로 : </td>
+     <td width="100"><input type="text" name="in_3" style="width:80px;">mm</td>
+     <td colspan="2" width="200">
+      <input type="button" name="btn_1" value="견적내기" onclick="javascript:fn_Calc();">
+     </td>
+    </tr>
+    <Tr>
+     <td width="100">금액 : </td>
+     <td width="100"><input type="text" name="in_4" style="width:80px;" readonly></td>
+     <td width="100">X 수량 : </td>
+     <td width="100"><input type="text" name="in_5" style="width:80px;" readonly></td>
+     <td width="100">= 합계</td>
+     <td width="100"><input type="text" name="in_6" style="width:80px;" readonly>원</td>
+    </tr>
+   </table>
+  </td>
+ </tr>
+ </TABLE>
+ </FORM>
+ </BODY>
+</HTML>

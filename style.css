@@ -1,0 +1,20 @@
+hr {display:none;}
+img,fieldset {border:0 none;}
+dl,ul,ol,li {list-style: none;}
+body, td, th {font-size:12px;line-height:1.5;color:#666;font-family:dotum,,AppleGothic,sans-serif;}
+em {font-style:normal;}
+h1,h2,h3,h4,h5,h6,dl,dt,dd,ul,li,ol,th,td,p,blockquote,form,fieldset,legend,br{margin:0;padding:0;}
+h1,h2,h3,h4,h5,h6,caption {display:none;}
+a, a:visited, a:link {text-decoration:none;color:#555555;}
+a:active, a:hover {text-decoration:none;color:#555555;}
+button {cursor:pointer;}
+body{margin:0px;background-color:#e7e8ea;background: url(../images/bg.jpg)}
+.cl_b{clear:both; width:0px; height:0px;}
+img {border:0px;} 
+ul, ol, li	{list-style:none; list-style-position:outside}
+form { margin:0px; }
+td{border:1px solid #ffffff;padding:3px 0 3px 5px;}
+th{border:1px solid #ffffff;padding:3px 0 3px 5px;}
+#content{margin:0 auto;width:500px;padding:50px 0 0 0;}
+
+ul > li >span { color: "#5F3F00" }

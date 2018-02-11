@@ -1,0 +1,236 @@
+﻿<?php 
+session_start();
+include("config.php");
+?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+    <title>밥상머리</title>
+    <!-- BOOTSTRAP CORE STYLE CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLE CSS -->
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- CUSTOM STYLE CSS -->
+    <link href="assets/css/style.css" rel="stylesheet" />    
+    <!-- GOOGLE FONT -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+	<link href='favicon/favi.ico' rel='shortcut icon' type='image/ico'/>
+
+</head>
+<body >
+	<script src="http://stalk.io/stalk.js"></script>
+	<script>STALK.init();</script>
+    <div class="navbar navbar-inverse navbar-fixed-top" >
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">밥상머리</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html">HOME</a></li>
+					<li><a href="register.html">회원가입</a></li>
+					<li><a href="login.html">Login</a></li>
+					<li><a href="login.html">마이페이지</a></li>
+                    <li><a id="recommendpage" href="recommend.html">추천메뉴</a></li>
+                    <li><a href="recipe.html">레시피제작</a></li>
+                     <li><a href="dishinfo.html">음식정보</a></li>
+                      <li><a href="developer.html">개발자소개</a></li>
+                </ul>
+            </div>
+           
+        </div>
+    </div>
+   <!--/.NAVBAR END-->
+        
+       
+    <!--/.SLIDESHOW END-->
+
+
+   
+
+    <!--/.INTRO END-->
+      
+	  <br> <br> <br> <br> 
+      <!--/.OFFFER END-->
+         <section id="just-intro">
+		 <br>
+             <div class="container">
+             <div class="row text-center pad-row">
+            <div class="col-md-4  col-sm-4">
+                <!-- <i class="fa fa-desktop fa-5x"></i> -->
+                            <h4> <strong>공지사항</strong> </h4> <br>
+                             <span style="float: left;">
+	            <a href="news.php"></a></span>
+		        <span style="float: right; padding-top: 3px; line-height: 10px;" class="table_text_11">
+		        </span>
+				<tr>
+	        <td height="4"></td>
+	    </tr>
+
+	    <tr>
+	        <td style="background-color: rgb(255, 159, 0);" height="3"></td>
+	    </tr>
+	    <tr>
+	         <td height="4"></td>
+	    </tr>
+         <?php include ("lastnews.php"); ?>
+		 <!-- 공지사항 끝 -->
+				<br> <br> <br>
+                         
+                </div>
+             <div class="col-md-4  col-sm-4">
+             
+                            <h4> <strong>이벤트</strong> </h4> <br>
+                           <span style="float: left;">
+                <a href="events.php"></a></span>
+            <span style="float: right; padding-top: 3px; line-height: 10px;" class="table_text_11">
+            </span>
+			    <td style="background-color: rgb(255, 159, 0);" height="3"></td>
+	    </tr>
+	    <tr>
+	         <td height="4"></td>
+	    </tr>
+	      <?php include ("nextevents.php"); ?>
+			<!-- 이벤트 끝 -->
+			<br> <br> <br>
+			
+                </div>
+            <div class="col-md-4  col-sm-4">
+                            <h4> <strong>자유게시판</strong> </h4> <br>
+                            <span style="float: left;">
+            <a href="userblog.php"></a></span>
+            <span style="float: right; padding-top: 3px; line-height: 10px;" class="table_text_11">
+		            </span>
+			    <td style="background-color: rgb(255, 159, 0);" height="3"></td>
+	    </tr>
+	    <tr>
+	         <td height="4"></td>
+	    </tr>
+	<tr>
+		<td width="200">		
+		<?php
+			$gb = mysql_query("SELECT * FROM `web_userblog` ORDER BY `id` DESC LIMIT 5") or die(mysql_error());
+			while($b = mysql_fetch_array($gb)){
+				$gc = mysql_query("SELECT * FROM `web_ubcomments` WHERE `bid`='".$b['id']."' ORDER BY `id` ASC") or die(mysql_error());
+				$cc = mysql_num_rows($gc);
+				echo "<table style=\"width: 100%; height: 100%;\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">";
+				echo "<tbody><tr>";
+			    echo "<td width=\"10\"></td>";
+				echo "<td><img src=\"images/gm_arrow.gif\" width=\"7\" height=\"5\">[".$b['date']."] [<a href=\"members.php?name=".$b['author']."\">".$b['author']."</a>] <b><a href=\"userblog.php?id=".$b['id']."\">".stripslashes($b['title'])."</a></b></td><td align=\"right\"><b>".$cc."</b> <img src=\"images/comment.png\"></td>";
+				echo "</tr>";
+				echo "<tr>";
+				echo "<td colspan=\"3\"><img src=\"images/bbs_line_02.gif\" width=\"100%\" height=\"7\"></td>";
+				echo "</tr>";
+				echo "</tbody></table>";
+			}
+		?>
+		
+                </div>
+                    
+            </div>
+                 </div>
+         </section>
+		 <br><br><br><br><br><br><br>
+    <!--후원-->
+     <section id="clients"  >
+        
+                
+            <div class="container">
+           <div class="row text-center pad-bottom" >
+            <div class="col-md-12">
+                <img src="assets/img/clients.png" alt="" class="img-responsive" />
+            </div>
+               
+               </div>
+        </div>
+        </section>
+     <!--후원끝-->
+     <section id="clients"  >
+        
+                
+            <div class="container">
+           
+        </div>
+        </section>
+     <!--/.CLIENTS END-->
+    <section id="footer-sec" >
+             
+            <div class="container">
+           <div class="row  pad-bottom" >
+            <div class="col-md-4">
+                <h4> <strong>밥상머리 저작권 안내:</strong> </h4>
+                    <p>
+						(주)밥상머리 | 대표이사 : 김진영, 김도은, 김은주 | 개인정보책임자: 유선동
+					<br />
+                         고객센터: 1588-9999 | 팩스: 070-7844-9999
+					</p>
+                <a href="#" >고객센터함</a>
+                </div>
+               <div class="col-md-4">
+                    <h4> <strong>소셜 네트워크</strong> </h4>
+                   <p>
+                     <a href="https://www.google.co.kr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CCIQFjAA&url=https%3A%2F%2Fko-kr.facebook.com%2F&ei=rXVsVJWFHYWtmgXYo4KoAQ&usg=AFQjCNHBkoI3t8CXNLxiXP37FMjUnRhqKQ&sig2=ZB2bM2VQmV864qZtKUqB6Q&bvm=bv.80120444,d.dGY&cad=rjt"><i class="fa fa-facebook-square fa-3x"  ></i></a>  
+                        <a href="https://www.google.co.kr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0CCEQ7AgwAA&url=https%3A%2F%2Fwww.twitter.com%2F&ei=1HVsVMeCMqf3mQWdxYH4Dw&usg=AFQjCNGvT2idt3OWORFR0-YzPQDlr7VJpw&sig2=ERTiyZDumCOWaKJ9_PNgEQ&bvm=bv.80120444,d.dGY"><i class="fa fa-twitter-square fa-3x"  ></i></a>  
+                        <a href="https://www.google.co.kr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&sqi=2&ved=0CCEQ7AgwAA&url=https%3A%2F%2Fkr.linkedin.com%2F&ei=6nVsVM23DsP2mQW52oLgCA&usg=AFQjCNHr0-i-J-zc4RmyRYTEarKJT1oQEw&sig2=w1AgzK-W-avM-79_gpwKWQ&bvm=bv.80120444,d.dGY"><i class="fa fa-linkedin-square fa-3x"  ></i></a>  
+                       <a href="https://www.google.co.kr/?gfe_rd=cr&ei=_HVsVJ79KOXU8gfq54DgAw"><i class="fa fa-google-plus-square fa-3x"  ></i></a>  
+                   </p>
+                </div>
+				<div class="col-md-4">
+                <h4>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp밥상머리 접속율 </h4>
+                <hr>
+<?php 
+// 웹페이지 로그인수, 접속자수, 아이디수, 영구정지수,
+$result = mysql_query("SELECT * FROM accounts");// Account section
+$num_rows = mysql_num_rows($result);
+$result4 = mysql_query("SELECT * FROM accounts where banned = 1");// Account section
+$num_rowsb = mysql_num_rows($result4);
+
+
+echo "
+<b>".getOnline()."</b>명 현재 밥상머리 로그인수 <br />
+<b>".$num_rows."</b>개 아이디<br>
+<b>".$num_rowsb."</b>명 영구정지된 수<br>
+";
+?>
+                <form>
+                    
+               </div>
+            </div>
+    </section>         
+    <!--/.FOOTER END-->
+    <!-- JAVASCRIPT FILES PLACED AT THE BOTTOM TO REDUCE THE LOADING TIME  -->
+    <!-- CORE JQUERY  -->
+    <script src="assets/plugins/jquery-1.10.2.js"></script>
+    <!-- BOOTSTRAP SCRIPTS  -->
+    <script src="assets/plugins/bootstrap.js"></script>
+  <!-- CUSTOM SCRIPTS  -->
+    <script src="assets/js/custom.js"></script>
+	<script src="./assets/jquery/jquery-2.1.1.min.js"></script>
+	<script src="./assets/bootstrap-3.2.0-dist/js/bootstrap.js"></script>
+	<script src="assets/js/jquery.js"></script>
+    <!-- CORE BOOTSTRAP LIBRARY -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <!-- SLIDER SCRIPTS LIBRARY -->
+    <script src="assets/Slides-SlidesJS-3/examples/playing/js/jquery.slides.min.js"></script>
+    <!-- CUSTOM SCRIPT-->
+    <script>
+
+    </script>
+	
+<script src="./assets/jquery/jquery-2.1.1.min.js"></script>
+<script src="./assets/bootstrap-3.2.0-dist/js/bootstrap.js"></script>
+	
+</body>
+</html>

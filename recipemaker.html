@@ -1,0 +1,941 @@
+<html lang="ko">
+<head>
+
+<title> 레시피제작 </title>
+<meta charset="UTF-8">
+<style>
+body,td {font-size:12px;
+	margin: auto;
+	background: url(background/recipe_bg.jpg) no-repeat center center fixed; 
+ 	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+div.meat { width:313.4; height:400; border: 3px solid green; 
+	background-color: rgba(255,255,255,0.8);overflow:scroll;}
+div.fresh { width:313.4; height:400; border: 3px solid green; 
+	background-color: rgba(255,255,255,0.8); overflow:scroll; 
+	position:absolute; left:321; top:0;}
+div.souce { width:313.4; height:400; border: 3px solid green;
+	background-color: rgba(255,255,255,0.8); overflow:scroll; 
+	position:absolute; left:643; top: 0; }
+div.grain { width:313.4; height:400; border: 3px solid green;
+	background-color: rgba(255,255,255,0.8); overflow:scroll; 
+	position:absolute; left:965; top: 0;}
+div.fish { width:313.4; height:400; border: 3px solid green;
+	background-color: rgba(255,255,255,0.8); overflow:scroll;
+	position:absolute; left:1290; top:0;}
+div.infoSetting {
+	width:300; height:300; border: 3px solid black; 
+	background-color: rgba(255,255,255,0.6);
+	font-size:14pt; 
+	font-weight:bold;
+	float: right;
+	text-align: center;
+	position: absolute;
+	right:10px;
+}
+
+div.infoSetting h2 {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+div.result {
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color:rgb(255,255,255);
+	font-size:14pt; 
+	font-weight:bold;
+	left: 600px
+}
+/* Basic navigation styles */
+.navbar {
+    margin:20px 0;
+}
+
+.navbar ul {
+    margin: 0;
+    padding: 10px;
+    list-style: none;
+    border-radius: 8px;
+    background: #eee;
+    box-shadow: 0 0 2px rgba(0,0,0,.4) inset;
+	overflow: hidden; 
+}
+
+.navbar li {
+    margin: 0 5px;
+    float:left;		    			
+}
+
+.navbar li {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: #111;
+    background: #ccc;
+    font: bold 1em/1 Arial, Helvetica, sans-serif;
+    text-decoration: none;
+}
+
+/* Horizontal centering approach */
+
+.center ul{
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: fit-content;    
+    margin: auto;
+}
+
+#dishArea {
+	text-align: center;
+	width:640px;
+	font: bold 20px Arial, Helvetica, sans-serif;
+	background: url(images/dish.png) no-repeat bottom ; 
+}
+
+</style>
+
+<script language="javascript">
+var lowCrit = 730;
+var highCrit = 800;
+var selectedArray = new Array();
+<!--
+function CheckChoice(whichbox) {
+	with (whichbox.form) {
+		if (whichbox.type == "radio") {
+			hiddentotal.value = eval(hiddentotal.value) - eval(hiddenpriorradio.value);
+			hiddenpriorradio.value = eval(whichbox.price);
+			hiddentotal.value = eval(hiddentotal.value) + eval(whichbox.price);
+		} else {
+			if (whichbox.checked == false) {
+				hiddentotal.value = eval(hiddentotal.value) - eval(whichbox.value);
+			} else {
+				hiddentotal.value = eval(hiddentotal.value) + eval(whichbox.value);
+			}
+		}
+		if (hiddentotal.value < 0) {
+			InitForm();
+		}
+		return(formatCurrency(hiddentotal.value));
+	}
+}
+
+function formatCurrency(num) {
+	num = num.toString().replace(/$|,/g,'');
+	if(isNaN(num)) num = "0";
+	cents = Math.floor((num*100+0.5)%100);
+	num = Math.floor((num*100+0.5)/100).toString();
+	if(cents < 10) cents = "0" + cents;
+	for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++) {
+		num = num.substring(0,num.length-(4*i+3))+','+num.substring(num.length-(4*i+3));
+	}
+	return (num + "kcal");
+}
+
+function initForm() {
+	var resultNav = document.getElementById("resultNav");
+	document.myform.total.value='0kcal';
+	document.myform.hiddentotal.value=0;
+	document.myform.hiddenpriorradio.value=0;
+
+	resultNav.style.display = "none";
+
+	for (xx=0; xx < document.myform.elements.length; xx++) {
+		if (document.myform.elements[xx].type == 'checkbox' | document.myform.elements[xx].type == 'radio') {
+			document.myform.elements[xx].checked = false;
+		}
+	}
+
+	//set defualt radio value
+	document.myform.radMan.checked='checked';
+	document.myform.radNor.checked='checked';
+}
+
+/* show sign and dish per result kcal*/
+
+function printResult() {
+	var dishArea = document.getElementById("dishArea");
+	var resultImage = document.getElementById("resultImage");
+	var choiceCheckArray = document.getElementsByClassName("choiceCheck");
+	var checkedArray = new Array();
+	var totalValue = document.myform.hiddentotal.value;
+
+	dishArea.innerHTML = '';
+	
+	for(var i=0;i<choiceCheckArray.length;i++) {
+		if(choiceCheckArray[i].checked) {
+			checkedArray.push(choiceCheckArray[i].name);
+		}
+	}
+
+	if(!totalValue || totalValue <= 0) {
+		return;
+	}
+
+	setResultSign(totalValue);
+
+	for(var i=0; i<checkedArray.length;i++) {
+		var node = document.createElement("P");
+		var textnode = document.createTextNode(checkedArray[i]);
+		node.appendChild(textnode);
+		dishArea.appendChild(node);
+	}
+	  
+	for(var i=0;i<13;i++) {
+		dishArea.appendChild(document.createElement("BR"));
+	}
+
+	resultNav.style.display = "";
+}
+
+/*set health color sign */
+function setResultSign(totalValue) {
+	var resultImage = document.getElementById("resultImage");
+	
+	if(totalValue < lowCrit) {
+		resultImage.src = "images/green-light.png";
+	} else if(totalValue >= lowCrit && totalValue < highCrit) {
+		resultImage.src = "images/yellow-light.png";
+	} else {
+		resultImage.src = "images/red-light.png";
+	}
+}
+
+/*calculate Recommend Cal */
+function calRecoCal() {
+	var genderVal = findSelection("gender");
+	var activityVal = findSelection("activity");
+	var recoCalResult = findSelection("recoCalResult");
+	var userHeight = 0;
+	var recoCalResult = document.getElementById("recoCalResult");
+
+	userHeight = document.getElementById("userHeight").value;
+
+	var resultVal = userHeight/100 * userHeight/100 * genderVal * activityVal;
+	var oneMealVal = resultVal/3;
+	recoCalResult.innerHTML = '하루 권장: ' + Math.round(resultVal) + 'kcal' + '<br>'
+							+ '한끼 권장: ' + Math.round(oneMealVal) + 'kcal';
+
+	lowCrit = Math.round(oneMealVal*0.85);
+	highCrit = Math.round(oneMealVal*1.15);
+}
+
+function findSelection(field) {
+    var sizes = document.getElementsByName(field);
+
+    for (i=0; i < sizes.length; i++) {
+        if (sizes[i].checked==true) {
+            return sizes[i].value;
+        }
+	}
+}
+
+window.onload = function() {
+  initForm();
+};
+
+window.onreset = function() {
+  initForm();
+};
+
+</script>
+<link href='favicon/favi.ico' rel='shortcut icon' type='image/ico'/>
+</head>
+
+<div class="meat">
+<h1 style="color: purple">육류</h1>
+<h3>소고기</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: red; font-size:14pt; font-weight:bold;">안심(100g)</span>
+<input type=checkbox class="choiceCheck"name=소안심 value=154 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:14pt; font-weight:bold;">갈비(100g)</span>
+<input type=checkbox class="choiceCheck"name=소갈비 value=250 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:14pt; font-weight:bold;">양지머리(100g)</span>
+<input type=checkbox class="choiceCheck"name=소양지 value=260 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:14pt; font-weight:bold;">등심(100g)</span>
+<input type=checkbox class="choiceCheck"name=소등심 value=218 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:14pt; font-weight:bold;">채끝(100g)</span>
+<input type=checkbox class="choiceCheck"name=소채끝 value=126 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:14pt; font-weight:bold;">우둔(100g)</span>
+<input type=checkbox class="choiceCheck"name=소우둔 value=137 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:14pt; font-weight:bold;">장정육(100g)</span>
+<input type=checkbox class="choiceCheck"name=소장정육 value=184 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:14pt; font-weight:bold;">대접살(100g)</span>
+<input type=checkbox class="choiceCheck"name=소대접살 value=148 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<h3>돼지고기</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: red; font-size:14pt; font-weight:bold;">목심(100g)</span>
+<input type=checkbox class="choiceCheck"name=돼지목심 value=264 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:14pt; font-weight:bold;">등심(100g)</span>
+<input type=checkbox class="choiceCheck"name=돼지등심 value=236 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:14pt; font-weight:bold;">안심(100g)</span>
+<input type=checkbox class="choiceCheck"name=돼지안심 value=223 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:14pt; font-weight:bold;">삼겹살(100g)</span>
+<input type=checkbox class="choiceCheck"name=돼지삼겹살 value=331 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:14pt; font-weight:bold;">앞다리(100g)</span>
+<input type=checkbox class="choiceCheck"name=돼지앞다리 value=181 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:14pt; font-weight:bold;">뒷다리(100g)</span>
+<input type=checkbox class="choiceCheck"name=돼지뒷다리 value=235 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:14pt; font-weight:bold;">갈비(100g)</span>
+<input type=checkbox class="choiceCheck"name=돼지갈비 value=314 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:14pt; font-weight:bold;">갈매기살(100g)</span>
+<input type=checkbox class="choiceCheck"name=돼지갈매기살 value=188 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:14pt; font-weight:bold;">사태살(100g)</span>
+<input type=checkbox class="choiceCheck"name=돼지사태살 value=270 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:14pt; font-weight:bold;">항정살(100g)</span>
+<input type=checkbox class="choiceCheck"name=돼지항정살 value=264 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+
+<h3>오리고기</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: red; font-size:14pt; font-weight:bold;">오리(지방포함)(100g)</span>
+<input type=checkbox class="choiceCheck"name=오리지방 value=318 onClick="this.form.total.value=CheckChoice(this);"><br />
+<span style="color: red; font-size:14pt; font-weight:bold;">오리(살코키)(100g)</span>
+<input type=checkbox class="choiceCheck"name=오리살코기 value=134 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+
+<h3>닭고기</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: red; font-size:14pt; font-weight:bold;">닭날개(100g)</span>
+<input type=checkbox class="choiceCheck"name=닭날개 value=253 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:14pt; font-weight:bold;">닭다리(100g)</span>
+<input type=checkbox class="choiceCheck"name=닭다리 value=191 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:14pt; font-weight:bold;">닭가슴(100g)</span>
+<input type=checkbox class="choiceCheck"name=닭가슴 value=109 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: red; font-size:14pt; font-weight:bold;">달걀후라이(1개)</span>
+<input type=checkbox class="choiceCheck"name=달걀후라이 value=120 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+
+
+<h3>양고기</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: red; font-size:14pt; font-weight:bold;">양갈비(100g)</span>
+<input type=checkbox class="choiceCheck"name=양갈비 value=226 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:14pt; font-weight:bold;">양어깨(100g)</span>
+<input type=checkbox class="choiceCheck"name=양어깨 value=289 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+
+<h3>알</h3>
+<span style="color: red; font-size:14pt; font-weight:bold;">훈제달걀(1개)</span>
+<input type=checkbox class="choiceCheck"name=훈제달걀 value=75 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:14pt; font-weight:bold;">달걀(1개)</span>
+<input type=checkbox class="choiceCheck"name=달걀 value=80 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:14pt; font-weight:bold;">오리알(100g)</span>
+<input type=checkbox class="choiceCheck"name=오리알 value=188 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: red; font-size:14pt; font-weight:bold;">메추리알(100g)</span>
+<input type=checkbox class="choiceCheck"name=메추리알 value=170 onClick="this.form.total.value=CheckChoice(this);">
+</div>
+
+
+<div class="fresh">
+<h1 style="color: purple">채소 및 과일</h1>
+<h3>채소</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: green; font-size:14pt; font-weight:bold;">가지(100g)</span>
+<input type=checkbox class="choiceCheck"name=가지 value=16 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">고사리(100g)</span>
+<input type=checkbox class="choiceCheck"name=고사리 value=39 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">고구마줄기(100g)</span>
+<input type=checkbox class="choiceCheck"name=고구마줄기 value=43 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">고춧잎(100g)</span>
+<input type=checkbox class="choiceCheck"name=고춧잎 value=15 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">곰취(100g)</span>
+<input type=checkbox class="choiceCheck"name=곰취 value=23 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">근대(100g)</span>
+<input type=checkbox class="choiceCheck"name=근대 value=17 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">냉이(100g)</span>
+<input type=checkbox class="choiceCheck"name=냉이 value=31 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">늙은호박(100g)</span>
+<input type=checkbox class="choiceCheck"name=늙은호박 value=27 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">단무지(1인분)</span>
+<input type=checkbox class="choiceCheck"name=단무지 value=348 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">달래(100g)</span>
+<input type=checkbox class="choiceCheck"name=달래 value=27 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">당근(100g)</span>
+<input type=checkbox class="choiceCheck"name=당근 value=34 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">미나리(100g)</span>
+<input type=checkbox class="choiceCheck"name=미나리 value=16 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">황기(100g)</span>
+<input type=checkbox class="choiceCheck"name=황기 value=60 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">두릅(100g)</span>
+<input type=checkbox class="choiceCheck"name=두릅 value=21 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">머위(100g)</span>
+<input type=checkbox class="choiceCheck"name=머위 value=27 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">무(100g)</span>
+<input type=checkbox class="choiceCheck"name=무 value=13 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">무청(100g)</span>
+<input type=checkbox class="choiceCheck"name=무청 value=22 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">배추(100g)</span>
+<input type=checkbox class="choiceCheck"name=배추 value=12 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">부추(100g)</span>
+<input type=checkbox class="choiceCheck"name=부추 value=31 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">적양배추(100g)</span>
+<input type=checkbox class="choiceCheck"name=적양배추 value=31 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">양배추(100g)</span>
+<input type=checkbox class="choiceCheck"name=양배추 value=31 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">양상추(100g)</span>
+<input type=checkbox class="choiceCheck"name=양상추 value=11 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">브로콜리(100g)</span>
+<input type=checkbox class="choiceCheck"name=브로콜리 value=28 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">상추(100g)</span>
+<input type=checkbox class="choiceCheck"name=상추 value=18 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">샐러리(100g)</span>
+<input type=checkbox class="choiceCheck"name=샐러리 value=12 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">숙주(100g)</span>
+<input type=checkbox class="choiceCheck"name=숙주 value=11 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">시금치(100g)</span>
+<input type=checkbox class="choiceCheck"name=시금치 value=30 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">쑥갓(100g)</span>
+<input type=checkbox class="choiceCheck"name=쑥갓 value=19 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">아욱(100g)</span>
+<input type=checkbox class="choiceCheck"name=아욱 value=20 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">애호박(100g)</span>
+<input type=checkbox class="choiceCheck"name=애호박 value=38 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">양파(100g)</span>
+<input type=checkbox class="choiceCheck"name=양파 value=35 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">열무(100g)</span>
+<input type=checkbox class="choiceCheck"name=열무 value=11 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">오이(100g)</span>
+<input type=checkbox class="choiceCheck"name=오이 value=9 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">원추리(100g)</span>
+<input type=checkbox class="choiceCheck"name=원추리 value=35 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">죽순(100g)</span>
+<input type=checkbox class="choiceCheck"name=죽순 value=13 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">참나물(100g)</span>
+<input type=checkbox class="choiceCheck"name=청경채 value=29 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">치커리(100g)</span>
+<input type=checkbox class="choiceCheck"name=치커리 value=24 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">케일(100g)</span>
+<input type=checkbox class="choiceCheck"name=케일 value=16 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">콜리플라워(100g)</span>
+<input type=checkbox class="choiceCheck"name=콜리플라워 value=25 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">콩나물(100g)</span>
+<input type=checkbox class="choiceCheck"name=콩나물 value=30 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">파프리카(100g)</span>
+<input type=checkbox class="choiceCheck"name=파프리카 value=20 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">풋고추(100g)</span>
+<input type=checkbox class="choiceCheck"name=풋고추 value=19 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">풋마늘(70g)</span>
+<input type=checkbox class="choiceCheck"name=풋마늘 value= onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">피망(100g)</span>
+<input type=checkbox class="choiceCheck"name=피망 value=24 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">곤약(100g)</span>
+<input type=checkbox class="choiceCheck"name=곤약 value=0 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">아스파라거스(100g)</span>
+<input type=checkbox class="choiceCheck"name=아스파라거스 value=12onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">순무(100g)</span>
+<input type=checkbox class="choiceCheck"name=순무 value=31 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">구기자(64g)</span>
+<input type=checkbox class="choiceCheck"name=구기자 value=328 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">팽이버섯(100g)</span>
+<input type=checkbox class="choiceCheck"name=팽이버섯 value=36 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">표고버섯(100g)</span>
+<input type=checkbox class="choiceCheck"name=표고버섯 value=38 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">송이버섯(100g)</span>
+<input type=checkbox class="choiceCheck"name=송이버섯 value=28 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">느타리버섯(100g)</span>
+<input type=checkbox class="choiceCheck"name=느타리버섯 value=25 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">양송이버섯(100g)</span>
+<input type=checkbox class="choiceCheck"name=양송이버섯 value=24 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">깻잎(100g)</span>
+<input type=checkbox class="choiceCheck"name=깻잎 value=29 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">단호박(100g)</span>
+<input type=checkbox class="choiceCheck"name=단호박 value=66 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">대파(100g)</span>
+<input type=checkbox class="choiceCheck"name=대파 value=26 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">더덕(100g)</span>
+<input type=checkbox class="choiceCheck"name=더덕 value=55 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">도라지(100g)</span>
+<input type=checkbox class="choiceCheck"name=도라지 value=83 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">마늘쫑(100g)</span>
+<input type=checkbox class="choiceCheck"name=마늘쫑 value=51 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">쑥(100g)</span>
+<input type=checkbox class="choiceCheck"name=쑥 value=18 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">연근(100g)</span>
+<input type=checkbox class="choiceCheck"name=연근 value=67 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">우엉(100g)</span>
+<input type=checkbox class="choiceCheck"name=우엉 value=62 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">파슬리(100g)</span>
+<input type=checkbox class="choiceCheck"name=파슬리 value=31 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">호박고지(100g)</span>
+<input type=checkbox class="choiceCheck"name=호박고지 value=248 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">마늘(100g)</span>
+<input type=checkbox class="choiceCheck"name=마늘 value=120 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">무말랭이(100g)</span>
+<input type=checkbox class="choiceCheck"name=무말랭이 value=35 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">건취나물(100g)</span>
+<input type=checkbox class="choiceCheck"name=건취나물 value=31 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">건표고버섯(100g)</span>
+<input type=checkbox class="choiceCheck"name=건표고버섯 value=282 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">감자(100g)</span>
+<input type=checkbox class="choiceCheck"name=건취나물 value=66 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">고구마(100g)</span>
+<input type=checkbox class="choiceCheck"name=건표고버섯 value=128 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: green; font-size:14pt; font-weight:bold;">토란(100g)</span>
+<input type=checkbox class="choiceCheck"name=토란 value=40 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: green; font-size:14pt; font-weight:bold;">토란대(100g)</span>
+<input type=checkbox class="choiceCheck"name=토란대 value=18 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<h3>과일</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: orange; font-size:14pt; font-weight:bold;">토마토(1개)</span>
+<input type=checkbox class="choiceCheck"name=토마토 value=22 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: orange; font-size:14pt; font-weight:bold;">사과(1개)</span>
+<input type=checkbox class="choiceCheck"name=사과 value=100 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: orange; font-size:14pt; font-weight:bold;">키위(1개)</span>
+<input type=checkbox class="choiceCheck"name=키위 value=28 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: orange; font-size:14pt; font-weight:bold;">자몽(1개)</span>
+<input type=checkbox class="choiceCheck"name=자몽 value=110 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: orange; font-size:14pt; font-weight:bold;">바나나(1개)</span>
+<input type=checkbox class="choiceCheck"name=바나나 value=80 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: orange; font-size:14pt; font-weight:bold;">오렌지(1개)</span>
+<input type=checkbox class="choiceCheck"name=오렌지 value=46 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: orange; font-size:14pt; font-weight:bold;">두리안(100g)</span>
+<input type=checkbox class="choiceCheck"name=두리안 value=133 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: orange; font-size:14pt; font-weight:bold;">파인애플(1개)</span>
+<input type=checkbox class="choiceCheck"name=파인애플 value=174 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: orange; font-size:14pt; font-weight:bold;">배(1개)</span>
+<input type=checkbox class="choiceCheck"name=배 value=204 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: orange; font-size:14pt; font-weight:bold;">감(1개)</span>
+<input type=checkbox class="choiceCheck"name=감 value=68 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: orange; font-size:14pt; font-weight:bold;">포도(1개)</span>
+<input type=checkbox class="choiceCheck"name=포도 value=204 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: orange; font-size:14pt; font-weight:bold;">아몬드(1큰술)</span>
+<input type=checkbox class="choiceCheck"name=아몬드 value=40 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: orange; font-size:14pt; font-weight:bold;">딸기(100g)</span>
+<input type=checkbox class="choiceCheck"name=딸기 value=27 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: orange; font-size:14pt; font-weight:bold;">귤(1개)</span>
+<input type=checkbox class="choiceCheck"name=귤 value=39 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: orange; font-size:14pt; font-weight:bold;">체리(100g)</span>
+<input type=checkbox class="choiceCheck"name=체리 value=60 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: orange; font-size:14pt; font-weight:bold;">블루베리(100g)</span>
+<input type=checkbox class="choiceCheck"name=블루베리 value=56 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: orange; font-size:14pt; font-weight:bold;">참외(100g)</span>
+<input type=checkbox class="choiceCheck"name=참외 value=31 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: orange; font-size:14pt; font-weight:bold;">석류(100g)</span>
+<input type=checkbox class="choiceCheck"name=석류 value=67 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: orange; font-size:14pt; font-weight:bold;">수박(100g)</span>
+<input type=checkbox class="choiceCheck"name=수박 value=31 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: orange; font-size:14pt; font-weight:bold;">멜론(100g)</span>
+<input type=checkbox class="choiceCheck"name=멜론 value=38 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: orange; font-size:14pt; font-weight:bold;">복숭아(100g)</span>
+<input type=checkbox class="choiceCheck"name=복숭아 value=34 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: orange; font-size:14pt; font-weight:bold;">망고(100g)</span>
+<input type=checkbox class="choiceCheck"name=망고 value=68 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: orange; font-size:14pt; font-weight:bold;">매실(100g)</span>
+<input type=checkbox class="choiceCheck"name=매실 value=29 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: orange; font-size:14pt; font-weight:bold;">살구(100g)</span>
+<input type=checkbox class="choiceCheck"name=살구 value=28 onClick="this.form.total.value=CheckChoice(this);">
+</div>
+
+<div class="souce">
+<h1 style="color: purple">첨가물 및 양념</h1>
+<h3>첨가물 및 양념</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: plum; font-size:14pt; font-weight:bold;">토마토케첩(한큰술)</span>
+<input type=checkbox class="choiceCheck"name=토마토케첩 value=21 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">마요네즈(한큰술)</span>
+<input type=checkbox class="choiceCheck"name=마요네즈 value=92 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">머스터드(한큰술)</span>
+<input type=checkbox class="choiceCheck"name=머스터드 value=66 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">와사비(2.5g)</span>
+<input type=checkbox class="choiceCheck"name=와사비 value=8 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">간장(1인분)</span>
+<input type=checkbox class="choiceCheck"name=간장 value=42 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: plum; font-size:14pt; font-weight:bold;">식초(100g)</span>
+<input type=checkbox class="choiceCheck"name=식초 value=20 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">후추(100g)</span>
+<input type=checkbox class="choiceCheck"name=후추 value=306 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: plum; font-size:14pt; font-weight:bold;">설탕(100g)</span>
+<input type=checkbox class="choiceCheck"name=늙은호박 value=387 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">소금(무한)</span>
+<input type=checkbox class="choiceCheck"name=단무지 value=0 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: plum; font-size:14pt; font-weight:bold;">참기름(100g)</span>
+<input type=checkbox class="choiceCheck"name=참기름 value=884 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">새우젓(1인분)</span>
+<input type=checkbox class="choiceCheck"name=새우젓 value=50 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: plum; font-size:14pt; font-weight:bold;">쌈장(1인분)</span>
+<input type=checkbox class="choiceCheck"name=쌈장 value=194 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">초장(28g)</span>
+<input type=checkbox class="choiceCheck"name=초장 value=42 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: plum; font-size:14pt; font-weight:bold;">고추장(1인분)</span>
+<input type=checkbox class="choiceCheck"name=두릅 value=43 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">고춧가루(100g)</span>
+<input type=checkbox class="choiceCheck"name=고춧가루 value=272 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">들깨가루(8g)</span>
+<input type=checkbox class="choiceCheck"name=들깨가루 value=43 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">흑설탕(100g)</span>
+<input type=checkbox class="choiceCheck"name=흑설탕 value=376 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: plum; font-size:14pt; font-weight:bold;">버터(100g)</span>
+<input type=checkbox class="choiceCheck"name=버터 value=747 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">마가린(100g)</span>
+<input type=checkbox class="choiceCheck"name=마가린 value=721 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: plum; font-size:14pt; font-weight:bold;">치즈(100g)</span>
+<input type=checkbox class="choiceCheck"name=치즈 value=312 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">쇠고기다시다(1.5g)</span>
+<input type=checkbox class="choiceCheck"name=쇠고기다시다 value=4 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: plum; font-size:14pt; font-weight:bold;">멸치다시다(2.5g)</span>
+<input type=checkbox class="choiceCheck"name=멸치다시다 value=6 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">미림(14g)</span>
+<input type=checkbox class="choiceCheck"name=마가린 value=24 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: plum; font-size:14pt; font-weight:bold;">맛술(1큰술)</span>
+<input type=checkbox class="choiceCheck"name=치즈 value=42 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: plum; font-size:14pt; font-weight:bold;">밀가루(100g)</span>
+<input type=checkbox class="choiceCheck"name=밀가루 value=330 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: plum; font-size:14pt; font-weight:bold;">튀김가루(100g)</span>
+<input type=checkbox class="choiceCheck"name=튀김가루 value=328 onClick="this.form.total.value=CheckChoice(this);">
+</div>
+
+<div class="grain">
+<h1 style="color: purple">곡류</h1>
+<h3>곡류</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: brown; font-size:14pt; font-weight:bold;">쌀(100g)</span>
+<input type=checkbox class="choiceCheck"name=쌀 value=372 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: brown; font-size:14pt; font-weight:bold;">보리(100g)</span>
+<input type=checkbox class="choiceCheck"name=보리 value=334 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: brown; font-size:14pt; font-weight:bold;">현미(100g)</span>
+<input type=checkbox class="choiceCheck"name=현미 value=354 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: brown; font-size:14pt; font-weight:bold;">깨(100g)</span>
+<input type=checkbox class="choiceCheck"name=깨 value=559 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: brown; font-size:14pt; font-weight:bold;">들깨(100g)</span>
+<input type=checkbox class="choiceCheck"name=들깨 value=523 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: brown; font-size:14pt; font-weight:bold;">옥수수(100g)</span>
+<input type=checkbox class="choiceCheck"name=옥수수 value=106 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: brown; font-size:14pt; font-weight:bold;">귀리(100g)</span>
+<input type=checkbox class="choiceCheck"name=귀리 value=317 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: brown; font-size:14pt; font-weight:bold;">강낭콩(100g)</span>
+<input type=checkbox class="choiceCheck"name=강낭콩 value=156 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: brown; font-size:14pt; font-weight:bold;">완두콩(100g)</span>
+<input type=checkbox class="choiceCheck"name=완두콩 value=120 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: brown; font-size:14pt; font-weight:bold;">대추(100g)</span>
+<input type=checkbox class="choiceCheck"name=대추 value=104 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: brown; font-size:14pt; font-weight:bold;">기장(100g)</span>
+<input type=checkbox class="choiceCheck"name=기장 value=352 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: brown; font-size:14pt; font-weight:bold;">율무(100g)</span>
+<input type=checkbox class="choiceCheck"name=율무 value=379 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: brown; font-size:14pt; font-weight:bold;">들깨(100g)</span>
+<input type=checkbox class="choiceCheck"name=들깨 value=523 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: brown; font-size:14pt; font-weight:bold;">조(100g)</span>
+<input type=checkbox class="choiceCheck"name=조 value=377 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: brown; font-size:14pt; font-weight:bold;">팥(100g)</span>
+<input type=checkbox class="choiceCheck"name=팥 value=317 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: brown; font-size:14pt; font-weight:bold;">서리태(100g)</span>
+<input type=checkbox class="choiceCheck"name=서리태 value=400 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: brown; font-size:14pt; font-weight:bold;">흑미(100g)</span>
+<input type=checkbox class="choiceCheck"name=흑미 value=364 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: brown; font-size:14pt; font-weight:bold;">찹쌀(100g)</span>
+<input type=checkbox class="choiceCheck"name=찹쌀 value=374 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+</div>
+
+<div class="fish">
+<h1 style="color: purple">해산물</h1>
+<h3>어류</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: blue; font-size:14pt; font-weight:bold;">멸치(100g)</span>
+<input type=checkbox class="choiceCheck"name=멸치 value=114 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">꽁치(100g)</span>
+<input type=checkbox class="choiceCheck"name=꽁치 value=262 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">가자미(100g)</span>
+<input type=checkbox class="choiceCheck"name=가자미 value=129 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">복어(100g)</span>
+<input type=checkbox class="choiceCheck"name=복어 value=89 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">도미(100g)</span>
+<input type=checkbox class="choiceCheck"name=도미 value=103 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">날치(100g)</span>
+<input type=checkbox class="choiceCheck"name=날치 value=98 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">날치알(100g)</span>
+<input type=checkbox class="choiceCheck"name=날치알 value=96 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">고등어(100g)</span>
+<input type=checkbox class="choiceCheck"name=고등어 value=183 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">장어(100g)</span>
+<input type=checkbox class="choiceCheck"name=장어 value=110 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">홍어(100g)</span>
+<input type=checkbox class="choiceCheck"name=홍어 value=87 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">삼치(100g)</span>
+<input type=checkbox class="choiceCheck"name=삼치 value=178 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">참치(100g)</span>
+<input type=checkbox class="choiceCheck"name=참치 value=200 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">메기(100g)</span>
+<input type=checkbox class="choiceCheck"name=메기 value=170 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">미꾸라지(100g)</span>
+<input type=checkbox class="choiceCheck"name=미꾸라지 value=107 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">볼락(100g)</span>
+<input type=checkbox class="choiceCheck"name=볼락 value=112 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">갈치(100g)</span>
+<input type=checkbox class="choiceCheck"name=갈치 value=145 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">연어(100g)</span>
+<input type=checkbox class="choiceCheck"name=연어 value=161 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">은어(100g)</span>
+<input type=checkbox class="choiceCheck"name=은어 value=114 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">참조기(100g)</span>
+<input type=checkbox class="choiceCheck"name=참조기 value=124 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">굴비(100g)</span>
+<input type=checkbox class="choiceCheck"name=굴비 value=178 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">아귀(100g)</span>
+<input type=checkbox class="choiceCheck"name=아귀 value=60 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">감성돔(100g)</span>
+<input type=checkbox class="choiceCheck"name=감성돔 value=96 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">넙치(100g)</span>
+<input type=checkbox class="choiceCheck"name=넙치 value=110 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">다랑어(100g)</span>
+<input type=checkbox class="choiceCheck"name=다랑어 value=125 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">까나리(100g)</span>
+<input type=checkbox class="choiceCheck"name=까나리 value=173 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">양미리(100g)</span>
+<input type=checkbox class="choiceCheck"name=양미리 value=123 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">오징어(100g)</span>
+<input type=checkbox class="choiceCheck"name=장어 value=87 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">문어(100g)</span>
+<input type=checkbox class="choiceCheck"name=문어 value=74 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">낙지(100g)</span>
+<input type=checkbox class="choiceCheck"name=낙지 value=53 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">꽃게(100g)</span>
+<input type=checkbox class="choiceCheck"name=꽃게 value=122 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">대게(100g)</span>
+<input type=checkbox class="choiceCheck"name=대게 value=60 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">쥐치(100g)</span>
+<input type=checkbox class="choiceCheck"name=쥐치 value=85 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">가오리(100g)</span>
+<input type=checkbox class="choiceCheck"name=가오리 value=90 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">과메기(100g)</span>
+<input type=checkbox class="choiceCheck"name=과메기 value=178 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">청어(100g)</span>
+<input type=checkbox class="choiceCheck"name=청어 value=242 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">조개(100g)</span>
+<input type=checkbox class="choiceCheck"name=조개 value=49 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">키조개(100g)</span>
+<input type=checkbox class="choiceCheck"name=키조개 value=57 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">임연수(100g)</span>
+<input type=checkbox class="choiceCheck"name=임연수 value=166 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">꼬막(100g)</span>
+<input type=checkbox class="choiceCheck"name=꼬막 value=81 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">가리비(100g)</span>
+<input type=checkbox class="choiceCheck"name=가리비 value=80 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">소라(100g)</span>
+<input type=checkbox class="choiceCheck"name=소라 value=79 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">명태(100g)</span>
+<input type=checkbox class="choiceCheck"name=명태 value=98 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">대구(100g)</span>
+<input type=checkbox class="choiceCheck"name=대구 value=90 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">붕어(100g)</span>
+<input type=checkbox class="choiceCheck"name=붕어 value=100 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">잉어(100g)</span>
+<input type=checkbox class="choiceCheck"name=잉어 value=117 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">해삼(100g)</span>
+<input type=checkbox class="choiceCheck"name=해삼 value=15 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">멍게(100g)</span>
+<input type=checkbox class="choiceCheck"name=멍게 value=78 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">가재(100g)</span>
+<input type=checkbox class="choiceCheck"name=가재 value=87 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">산천어(100g)</span>
+<input type=checkbox class="choiceCheck"name=산천어 value=117 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">다슬기(100g)</span>
+<input type=checkbox class="choiceCheck"name=다슬기 value=117 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">미더덕(100g)</span>
+<input type=checkbox class="choiceCheck"name=미더덕 value=23 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">갈치(100g)</span>
+<input type=checkbox class="choiceCheck"name=갈치 value=145 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">대하(100g)</span>
+<input type=checkbox class="choiceCheck"name=대하 value=93 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">준치(100g)</span>
+<input type=checkbox class="choiceCheck"name=준치 value=133 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">숭어(100g)</span>
+<input type=checkbox class="choiceCheck"name=숭어 value=125 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">병어(100g)</span>
+<input type=checkbox class="choiceCheck"name=병어 value=164 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: blue; font-size:14pt; font-weight:bold;">광어(100g)</span>
+<input type=checkbox class="choiceCheck"name=광어 value=103 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: blue; font-size:14pt; font-weight:bold;">굴(100g)</span>
+<input type=checkbox class="choiceCheck"name=굴 value=97 onClick="this.form.total.value=CheckChoice(this);">
+
+<h3>해조류</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: skyblue; font-size:14pt; font-weight:bold;">미역(100g)</span>
+<input type=checkbox class="choiceCheck"name=미역 value=11 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: skyblue; font-size:14pt; font-weight:bold;">김(100g)</span>
+<input type=checkbox class="choiceCheck"name=김 value=19 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: skyblue; font-size:14pt; font-weight:bold;">미역줄기(100g)</span>
+<input type=checkbox class="choiceCheck"name=미역줄기 value=22 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: skyblue; font-size:14pt; font-weight:bold;">파래(100g)</span>
+<input type=checkbox class="choiceCheck"name=파래 value=19 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: skyblue; font-size:14pt; font-weight:bold;">다시마(100g)</span>
+<input type=checkbox class="choiceCheck"name=다시마 value=19 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: skyblue; font-size:14pt; font-weight:bold;">해초(100g)</span>
+<input type=checkbox class="choiceCheck"name=해초 value=26 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: skyblue; font-size:14pt; font-weight:bold;">청각(100g)</span>
+<input type=checkbox class="choiceCheck"name=청각 value=9 onClick="this.form.total.value=CheckChoice(this);"><br /><br /><br />
+<span style="color: skyblue; font-size:14pt; font-weight:bold;">우무가사리(100g)</span>
+<input type=checkbox class="choiceCheck"name=우무가사리 value=89 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: skyblue; font-size:14pt; font-weight:bold;">톳(100g)</span>
+<input type=checkbox class="choiceCheck"name=톳 value=24 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: skyblue; font-size:14pt; font-weight:bold;">매생이(100g)</span>
+<input type=checkbox class="choiceCheck"name=매생이 value=19 onClick="this.form.total.value=CheckChoice(this);">
+</div>
+
+<br>
+<br>
+<hr>
+<div class="infoSetting">
+	<h2 style="color: purple">선택 사항</h2>
+	<hr>
+	<input id="radMan" type="radio" name="gender" value="22" />남자
+    <input id="radWom" type="radio" name="gender" value="21" />여자
+	<br><br>키: <input type="number" id="userHeight" style="width:60px" /> cm
+	<br><br>활동량: 
+	<input id="radLig" type="radio" name="activity" value="25" />적음
+    <input id="radNor" type="radio" name="activity" value="32" />보통
+    <input id="radLar" type="radio" name="activity" value="40" />많음
+	<br><br>
+	<input type=button value="권장 칼로리 보기" onclick="calRecoCal()" />
+	<hr><p id="recoCalResult">하루 권장: 0kcal<br>한끼 권장: 0kcal</p>
+</div>
+<div class="result">
+	<input type=hidden name=hiddentotal value=0>
+	<input type=hidden name=hiddenpriorradio value=0>
+	<p style="color: red">총 칼로리 : 
+	<input type=text name=total style="width:60px" readonly> 입니다.</p>
+	<p><input type=button value="결과보기" onclick="printResult()"></p>
+</div>
+<div id="resultNav" class="navbar center">
+	<ul>
+        <li><img id="resultImage" src="images/green-light.png"></li>
+		<ul>
+        	<li>
+        		<div id="dishArea">
+        		</div>
+        	</li>
+        </ul>
+    </ul>
+</div>
+</font>
+</form>
+
+<!------------------ 여기까지 -------------->
+
+</body>
+</html>

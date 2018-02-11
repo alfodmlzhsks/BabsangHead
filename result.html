@@ -1,0 +1,206 @@
+﻿<HTML lang="ko">
+<HEAD>
+
+<TITLE> Jasko Sample Script </TITLE>
+<meta charset="UTF-8">
+<style>
+body,td {font-size:12px}
+div.meat { width:313.4; height:400; border: 3px solid green; overflow:scroll;}
+div.fresh { width:313.4; height:400; border: 3px solid green; overflow:scroll; position:absolute; left:325; bottom: 368;}
+div.souce { width:313.4; height:400; border: 3px solid green; overflow:scroll; position:absolute; left:643; bottom: 368; }
+div.grain { width:313.4; height:400; border: 3px solid green; overflow:scroll; position:absolute; left:962; bottom: 368;}
+div.fish { width:313.4; height:400; border: 3px solid green; overflow:scroll; position:absolute; left:1290; bottom: 368;}
+</style>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+function CheckChoice(whichbox) {
+with (whichbox.form) {
+if (whichbox.type == "radio") {
+hiddentotal.value = eval(hiddentotal.value) - eval(hiddenpriorradio.value);
+hiddenpriorradio.value = eval(whichbox.price);
+hiddentotal.value = eval(hiddentotal.value) + eval(whichbox.price);
+}
+else {
+if (whichbox.checked == false) {
+hiddentotal.value = eval(hiddentotal.value) - eval(whichbox.value);
+}
+else {
+hiddentotal.value = eval(hiddentotal.value) + eval(whichbox.value);
+   }
+}
+if (hiddentotal.value < 0) {
+InitForm();
+}
+return(formatCurrency(hiddentotal.value));
+   }
+}
+function formatCurrency(num) {
+num = num.toString().replace(/$|,/g,'');
+if(isNaN(num)) num = "0";
+cents = Math.floor((num*100+0.5)%100);
+num = Math.floor((num*100+0.5)/100).toString();
+if(cents < 10) cents = "0" + cents;
+for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+num = num.substring(0,num.length-(4*i+3))+','+num.substring(num.length-(4*i+3));
+return (num + "kcal");
+}
+function InitForm() {
+document.myform.total.value='kcal';
+document.myform.hiddentotal.value=0;
+document.myform.hiddenpriorradio.value=0;
+/* 항목을 추가하려면 아래의 방식으로 추가 할 수 있습니다
+document.myform2.total.value='0원';
+document.myform2.hiddentotal.value=0;
+document.myform2.hiddenpriorradio.value=0;
+document.myform2.hiddenpriorradio.value=0;
+*/
+for (xx=0; xx < document.myform.elements.length; xx++) {
+if (document.myform.elements[xx].type == 'checkbox' | document.myform.elements[xx].type == 'radio') {
+document.myform.elements[xx].checked = false;
+   }
+}
+/*
+for (xx=0; xx < document.myform2.elements.length; xx++) {
+if (document.myform2.elements[xx].type == 'checkbox' | document.myform2.elements[xx].type == 'radio') {
+document.myform2.elements[xx].checked = false;
+      }
+   }
+*/
+}
+//-->
+</script>
+
+<!------------------ 여기까지 --------------->
+
+</HEAD>
+
+<!----- 2. BODY 태그안에 아래의 이벤트 핸들러를 붙여 넣으세요 -->
+
+<BODY onLoad="InitForm();" onreset="InitForm();">
+
+<!----- 3. 원하는 위치에 아래와 같이 코드를 붙여 넣으세요 ------->
+<div class="meat">
+<h1>육류</h1>
+<h3>소고기</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: red; font-size:15pt">안심(100g)</span>
+<input type=checkbox name=소안심 value=155 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:15pt">갈비(100g)</span>
+<input type=checkbox name=소갈비 value=262 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:15pt">양지머리(100g)</span>
+<input type=checkbox name=소양지 value=260 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:15pt">등심(100g)</span>
+<input type=checkbox name=소등심 value=238 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:15pt">채끝(100g)</span>
+<input type=checkbox name=소채끝 value=236 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:15pt">우둔(100g)</span>
+<input type=checkbox name=소우둔 value=203 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:15pt">장정육(100g)</span>
+<input type=checkbox name=소장정육 value=184 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:15pt">대접살(100g)</span>
+<input type=checkbox name=소대접살 value=148 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<h3>돼지고기</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: red; font-size:15pt">목심(100g)</span>
+<input type=checkbox name=돼지목심 value=217 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:15pt">등심00g)</span>
+<input type=checkbox name=돼지등심 value=236 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:15pt">안심(100g)</span>
+<input type=checkbox name=돼지안심 value=223 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:15pt">삼겹살(100g)</span>
+<input type=checkbox name=돼지삼겹살 value=331 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:15pt">앞다리(100g)</span>
+<input type=checkbox name=돼지앞다리 value=181 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:15pt">뒷다리(100g)</span>
+<input type=checkbox name=돼지뒷다리 value=235 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:15pt">갈비(100g)</span>
+<input type=checkbox name=돼지갈비 value=314 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:15pt">갈매기살(100g)</span>
+<input type=checkbox name=돼지갈매기살 value=188 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:15pt">사태살(100g)</span>
+<input type=checkbox name=돼지사태살 value=270 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:15pt">항정살(100g)</span>
+<input type=checkbox name=돼지항정살 value=264 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+
+<h3>오리고기</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: red; font-size:15pt">오리(지방포함)(100g)</span>
+<input type=checkbox name=오리지방 value=318 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:15pt">오리(살코키)(100g)</span>
+<input type=checkbox name=오리살코기 value=134 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+
+<h3>닭고기</h3>
+<p>
+<form method=POST name=myform>
+<span style="color: red; font-size:15pt">닭날개(100g)</span>
+<input type=checkbox name=닭날개 value=253 onClick="this.form.total.value=CheckChoice(this);">
+<span style="color: red; font-size:15pt">닭다리(100g)</span>
+<input type=checkbox name=닭다리 value=191 onClick="this.form.total.value=CheckChoice(this);">
+<br /><br /><br />
+<span style="color: red; font-size:15pt">닭가슴(100g)</span>
+<input type=checkbox name=닭가슴 value=109 onClick="this.form.total.value=CheckChoice(this);">
+</div>
+<div class="fresh">
+</div>
+
+<div class="souce">
+</div>
+
+<div class="grain">
+</div>
+
+<div class="fish">
+</div>
+
+<br>
+<br>
+<hr>
+
+<p>
+<input type=hidden name=hiddentotal value=0>
+<input type=hidden name=hiddenpriorradio value=0>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+총 칼로리 : <input type=text name=total readonly> 입니다
+</font>
+</form>
+
+<!------------------ 여기까지 -------------->
+
+</BODY>
+</HTML>

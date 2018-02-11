@@ -1,0 +1,96 @@
+@font-face {
+	font-family: ng;
+	src: url(/lux/app/fonts/NanumGothic.eot);
+	src: local(※), url(/lux/app/fonts/NanumGothic.woff) format('woff')
+}
+
+body {
+	position: relative;
+	background-color: #efe5d0;
+	font-family: "산돌광수투";
+	margin: 0px;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	font-family: NanumGothic, 나눔고딕;
+}
+
+div.a {
+	border-top: 5px dotted #CD5E57;
+}
+
+.header {
+	background-color: #ACFFEF;
+	color: #FF9614;
+	text-align: center;
+	height: 100px;
+}
+
+.header h1 {
+	color: #954b4b;
+	font-size: 37pt;
+	font-family: a스케치명조;
+}
+
+section#main {
+	display: table-cell;
+	background-color: yellow;
+	padding: 15px;
+}
+
+nav {
+	display: table-cell;
+	background-color: #ffd800;
+	padding: 15px;
+}
+
+.footer {
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	background-color: #954b4b;
+	color: #efe5d0;
+	text-align: center;
+	padding: 10px;
+	font-size: 90%;
+	min-height: 100px;
+}
+
+#outerLine {
+	display: inline-block;
+	margin: 170px 0px;
+	text-align: center;
+}
+
+.content {
+	position: relative;
+	width: 100%;
+	min-height: 600px;
+}
+
+.block {display;table-cell;
+	vertical-align: middle;
+}
+
+.imageBoxes {
+	position: absolute;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.imageBox span {
+	font-size: 15px;
+	position: relative;
+	top: 10px;
+}
+
+.imageBox img {
+	border-radius: 5px;
+	border: 3px solid #954b4b;
+	width: 100%;
+}
+
+.imageBox img:hover {
+	width: 100%;
+	border: 3px dashed #ACFFEF;
+}

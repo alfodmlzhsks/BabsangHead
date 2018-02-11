@@ -1,0 +1,7 @@
+@font-face {
+/*밥상머리 추천메뉴 1훈하얀고양이 M*/
+    font-family: '1훈하얀고양이';
+    src: url('font/1훈하얀고양이R.eot'); 
+    src: url('font/1훈하얀고양이R.eot') format('eot'), 
+           url('font/1훈하얀고양이R.woff') format('woff'); 
+}

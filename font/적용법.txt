@@ -1,0 +1,30 @@
+// CsS에 적용하기
+@font-face {
+    font-family: 'NanumGothic';
+    src: url('../fonts/NanumGothic.eot'); 
+    src: url('../fonts/NanumGothic.eot') format('eot'), 
+           url('../fonts/NanumGothic.woff') format('woff'); 
+}
+
+//적용할 구간에 넣기
+font-family: NanumGothic;
+
+
+
+
+
+
+
+
+<style type="text/css">
+@font-face {
+    font-family: s;
+    src: url(s.eot); 
+    src: url(s.eot) format('eot'), 
+           url(s.woff) format('woff'); 
+}
+
+body {
+    font-family: s;
+}
+</style>

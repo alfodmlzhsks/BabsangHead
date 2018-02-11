@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>EOT File Integrity Test - %FONTFILENAME-OF-EOT%</title>
+
+<!--[if IE]>
+<style type="text/css" media="screen">
+@font-face { /* Declaration for IE 6, 7, and 8. Should work fine in IE9. */
+	font-family:'testfont';
+	src: url('%FONTFILENAME-OF-EOT%'); /*Replace %FONTFILENAME-OF-EOT% with filename of EOT file*/
+	
+	/*For testing a single EOT file, declaring it as font-weight:normal/font-style:normal is OK.
+	But in real-world use, when declaring the font as part of a larger font-family, the font-weight and font style
+	should always be declared to match the settings within the internal font data of the TTF font file.
+	Regular as normal, italic as italic, bold as bold, bold italic as bold and italic, etc. But for
+	testing a single file in this test page, just keep it declared as normal/normal */
+	
+	font-weight:normal;font-style:normal;
+      }
+</style>
+<![endif]-->
+
+<style type="text/css" media="screen">
+/* A block-letter diagnostic font named 'LocalFallback' (LocalFallback.ttf) is available to install locally to make it more obvious if the @font-face font has failed to load. Cursive and Fantasy defaults are used as yet another fallback in case this LocalFallback font isn't installed. */
+body {font-family: LocalFallback, cursive, fantasy,serif, sans-serif; color:#333;}
+h1{font-family:arial, sans-serif;font-size:24px;line-height:30px;}
+h2.style1 {font-size: 48px;line-height:normal; font-weight: normal; font-family: 'testfont', LocalFallback, cursive, fantasy;}
+#container p.style301 {font-size: 30px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style291 {font-size: 29px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style281 {font-size: 28px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style271 {font-size: 27px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style261 {font-size: 26px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style251 {font-size: 25px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style241 {font-size: 24px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style231 {font-size: 23px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style221 {font-size: 22px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style211 {font-size: 21px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style201 {font-size: 20px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style191 {font-size: 19px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style181 {font-size: 18px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style171 {font-size: 17px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style161 {font-size: 16px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style151 {font-size: 15px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style141 {font-size: 14px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style131 {font-size: 13px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style121 {font-size: 12px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style111 {font-size: 11px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style101 {font-size: 10px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style91  {font-size: 9px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style361 {font-size: 36px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style481 {font-size: 48px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style601 {font-size: 60px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style721 {font-size: 72px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+p.style961 {font-size: 96px;line-height:normal;font-family: 'testfont', LocalFallback, cursive, fantasy;}
+#container p+p{
+width: 800px;
+margin-left: auto;
+margin-right: auto;
+}
+#container p{
+width: 900px;
+margin-left: 100px;
+margin-left:5%;
+}
+#container p+p.notes{
+position:relative;
+left:350px;
+top:-210px;
+width:220px;
+margin-bottom:-200px;
+font-family:arial,sans-serif;
+font-size: 18px;
+}
+.samplebox {
+width:840px;
+overflow: hidden;
+white-space:nowrap;
+margin-top:10px;
+margin-bottom: 0px;
+}
+span.filename{font-family:sans-serif;font-size:22px;line-height:28px;display:block;height:28px;}
+span.localfallback{font-family:LocalFallback, sans-serif;font-size:22px;line-height:28px;display:block;height:28px;margin:0 0 -6px 0;}
+span.fantasy{font-family:fantasy;font-size:30px;line-height:38px;display:block;height:38px;margin:0;}
+span.cursive{font-family:cursive;font-size:30px;line-height:38px;display:block;height:38px;}
+span.serif{font-family:serif;font-size:30px;line-height:38px;display:block;height:38px;}
+span.sans-serif{font-family:sans-serif;font-size:30px;line-height:38px;display:block;height:38px;}
+span.label{width:80px;display:inline-block;text-align:center;}
+span.labelb{width:230px;display:inline-block;text-align:center;}
+span.standout{color:red;}
+pre{font-size:20px;font-family:monospace;margin:20px auto 60px 100px;line-height:26px;}
+	</style>
+<style type="text/css" media="screen">
+#notIE{color: white;
+color:black;background-color: transparent;text-align:center;
+	position: absolute;top:50%;left:0px;width: 100%;height:1px;overflow: visible;
+	visibility: visible;display: block;
+	}
+#notIEcontainer{font-family: Verdana, Geneva, Arial, sans-serif;
+	background-color: transparent;margin-left: -125px;
+	position: absolute;top: -35px;left: 50%;
+	width: 250px;height: 70px;
+	visibility: visible;
+	}
+.notIEtext{font-size: 18px;font-weight:bold;}
+	#container{display:none;}
+	#addendum{display:none;}
+</style>
+<!--[if IE]>	
+<style type="text/css" media="screen">
+#notIE, #notIEcontainer, .notIEtext, .mainmsg {display:none;}
+#container, #addendum{display:block;}
+#addendum{font-family:arial; font-size:16px;}
+</style>
+<![endif]-->
+</head>
+<body>
+<h1><a href="http://readableweb.com/">Readable Web's</a>&emsp;EOT File Integrity Test&emsp;&emsp;Ver. 1.0&emsp;&emsp;View In Internet Explorer Only</h1>
+  <div id="container">
+	<p>
+	<span class="filename">Test for filename: %FONTFILENAME-OF-EOT%</span>
+	<span class="localfallback">LocalFallback Test Font Not Installed</span>
+	<span class="cursive">The five boxing - Browser Cursive Font</span>
+	<span class="fantasy">The five boxing - Browser Fantasy Font</span>
+	<span class="serif">The five boxing - Browser Serif Font</span>
+	<span class="sans-serif">The five boxing - Browser Sans-Serif Font</span>
+	</p>
+<p class="notes">Designed to test the integrity of a single <br />
+EOT file - whether Regular, Italic, Bold, Bold Italic,<br />
+or some other weight/style combination.<br />
+Using the companion LocalFallback.ttf test font<br />
+is highly recommended.
+</p>
+<p class="style301 samplebox"><span class="label">30px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style291 samplebox"><span class="label">29px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style281 samplebox"><span class="label">28px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style271 samplebox"><span class="label">27px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style261 samplebox"><span class="label">26px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style251 samplebox"><span class="label">25px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style241 samplebox"><span class="label">24px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style231 samplebox"><span class="label">23px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style221 samplebox"><span class="label">22px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style211 samplebox"><span class="label">21px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style201 samplebox"><span class="label">20px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style191 samplebox"><span class="label">19px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style181 samplebox"><span class="label">18px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style171 samplebox"><span class="label">17px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style161 samplebox"><span class="label">16px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style151 samplebox"><span class="label">15px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style141 samplebox"><span class="label">14px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style131 samplebox"><span class="label">13px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style121 samplebox"><span class="label">12px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style111 samplebox"><span class="label">11px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style101 samplebox"><span class="label">10px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style91 samplebox"><span class="label">9px</span>The five boxing wizards jump quickly. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="style361 samplebox"><span class="labelb">36px</span>The five boxing wizards jump</p>
+<p class="style481 samplebox"><span class="labelb">48px</span>The five boxing wizards jump</p>
+<p class="style601 samplebox"><span class="labelb">60px</span>The five boxing wizards jump </p>
+<p class="style721 samplebox"><span class="labelb">72px</span>The five boxing wizards jump</p>
+<p class="style961 samplebox"><span class="labelb">96px</span>The five boxing wizards jump</p>
+  </div>
+<pre id="addendum">
+<b>EOT File Not Working?</b>
+First check the usual:
+1) Is the filename spelled correctly?
+2) Is the path to the EOT file correct?
+3) Did a semicolon or a paren in the CSS get deleted by mistake?
+If all that stuff looks OK - the problem might be in the original TTF file itself.
+A font file is a little database made up of tables that store information for different aspects of the font.
+In order to make an EOT file that works right, some of the data entries inside the TTF have to be entered a
+certain way. Usually it's all fine, but sometimes you have to fix the font a little so that Internet Explorer knows
+what to do with the EOT.
+The problem is usually only one out of three or four possible problems and easy to fix.
+And you can fix almost any of them with the <b>free</b> font-to-XML/XML-to-font converter TTX.
+Or a font editor of your choice, of course.
+See the documentation at <a href="http://eotfast.com">EOTFAST</a> for troubleshooting details.
+</pre>
+<div id="notIE">
+<div id="notIEcontainer">
+<div class="notIEtext">
+This page is for testing<br>
+<span class="mainmsg">EOT files in Internet Explorer Only</span>
+</div>
+</div>
+</div>
+</body>
+</html>

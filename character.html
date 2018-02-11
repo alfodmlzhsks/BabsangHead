@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<meta charset="UTF-8">
+<head>
+<title>캐릭터 선택</title>
+<style>
+	body{
+	    position: relative;
+	    background-color: #efe5d0;
+		font-family: "산돌광수투";
+		margin: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+    }	
+
+    div.a{ 
+		border-top: 5px dotted #CD5E57;
+	}
+
+	body img {
+		padding-left: 15px;
+	}
+
+	
+	.header{
+		width: 100%;
+		background-color: #ACFFEF;
+		color: #FF9614;
+		margin: 0px;
+		text-align: center;
+		padding: 20px;
+		height: 10%;
+	}
+	
+	h1{
+		margin: 0px;
+		color: #80E12A;
+		font-size: 40pt;
+		font-family: Cul De Sac;
+	}
+	
+	section#main {
+	   display: table-cell;
+	   background-color: yellow;
+	   padding: 15px;
+	}
+	
+	nav {
+	   display: table-cell;
+	   background-color: #ffd800;
+	   padding: 15px;
+	}
+	
+	.footer { 
+	   width: 100%;
+	   background-color: #954b4b;
+	   color: #efe5d0;
+	   text-align: center;
+	   padding: 10px;
+	   margin: -260px 0px -90px 0px;
+	   font-size: 90%;
+	   height: 76px;
+	}
+	
+	#outerLine{	
+		display: inline-block;
+	   margin: 170px 0px;
+	   text-align: center;	   
+	}
+	
+	#outerLine img{
+	   margin: 12px;
+	   -webkit-transition: width 1s, height 1s, border 1s;
+	   position: relative;
+	   left: 300px;
+	   bottom: 150px;
+	   
+	}
+	
+	.content{
+	width: 100%;
+	height: 100%;
+	margin-top: 14%;
+	
+	}
+	
+	.block{
+	   display; table-cell;
+	   vertical-align: middle;
+	   
+	}
+	#outerLine img:hover {
+		width: 274px;
+		height: 253px;
+		border: 10px dashed #8CF064;
+	}
+	</style>
+	<link rel="stylesheet" type="text/css" media="screen" href="css/character.css"/>
+	<link href='favicon/favi.ico' rel='shortcut icon' type='image/ico'/>
+</head>
+<body style="overflow-y:hidden">
+	
+	<div class="container">
+		<div class="header">
+			<h1><span class="g"></span>Character Select</h1>
+		</div>
+		<div id="outerLine">
+			<div class="block">
+		
+				<a href="index.html?age=baby"><img src="images/baby.jpg" onmouseover="this.src='images/baby.png'" onmouseout="this.src='images/baby.jpg'"></a>
+				<a href="index.html?age=teen"><img src="images/blood.jpg" onmouseover="this.src='images/teen.png'" onmouseout="this.src='images/blood.jpg'"></a>
+				<a href="index.html?age=college"><img src="images/chung.jpg" onmouseover="this.src='images/college.png'" onmouseout="this.src='images/chung.jpg'"></a>
+				<br />
+				<a href="index.html?age=middle"><img src="images/jungjang.jpg" onmouseover="this.src='images/middle.jpg'" onmouseout="this.src='images/jungjang.jpg'"></a>
+				<a href="index.html?age=grand"><img src="images/jang.jpg" onmouseover="this.src='images/grand.gif'" onmouseout="this.src='images/jang.jpg'"></a>
+			</div>
+		</div>
+		<div class="footer">
+			<p class="c"></p>
+		</div>
+	</div>
+
+</body>
+
+</html>

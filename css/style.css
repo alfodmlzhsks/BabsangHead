@@ -1,0 +1,120 @@
+hr {display:none;}
+img,fieldset {border:0 none;}
+dl,ul,ol,li {list-style: none;}
+body, td, th {font-size:12px;line-height:1.5;color:#666;font-family:dotum,,AppleGothic,sans-serif;}
+em {font-style:normal;}
+h1,h2,h3,h4,h5,h6,dl,dt,dd,ul,li,ol,th,td,p,blockquote,form,fieldset,legend,br{margin:0;padding:0;}
+h1,h2,h3,h4,h5,h6,caption {display:none;}
+a, a:visited, a:link {text-decoration:none;color:#555555;}
+a:active, a:hover {text-decoration:none;color:#555555;}
+button {cursor:pointer;}
+body{margin:0px;background-color:#e7e8ea;background: url(../images/bg.jpg)}
+.cl_b{clear:both; width:0px; height:0px;}
+img {border:0px;} 
+ul, ol, li	{list-style:none; list-style-position:outside}
+form { margin:0px; }
+td{border:1px solid #ffffff;padding:3px 0 3px 5px;}
+th{border:1px solid #ffffff;padding:3px 0 3px 5px;}
+#content{margin:0 auto;width:500px;padding:50px 0 0 0;}
+
+ul > li >span { color: "#5F3F00" }
+
+
+.introduce{
+	height: 385px;
+	width: 600px;
+	margin: 20px auto;
+	position: relative;
+}
+.introduce li{
+	width: 300px;
+}
+.introduce li a{
+	display: block;
+	width: 280px;
+	padding: 0px 10px;
+	text-align: right;
+	position: relative;
+	z-index: 10;
+	height: 97px;
+	border-right: 1px solid #ddd;
+	background: rgba(255,255,255, 0.8);
+}
+.introduce li:hover a{
+	background: rgba(225,239,240, 0.4);
+}
+.introduce li a span{
+	display:block;
+}
+.introduce li a span:first-child{
+	font-weight: 700;
+	font-size: 35px;
+	color: #ddd;
+	padding-top: 10px;
+	font-family: "헤움숲142";
+}
+
+.introduce li a span:nth-child(2){
+	font-weight: 400;
+	font-size: 45px;
+	font-family: '헤움팡이B';
+	-webkit-transition: color 0.2s linear;
+	-moz-transition: color 0.2s linear;
+	-o-transition: color 0.2s linear;
+	-ms-transition: color 0.2s linear;
+	transition: color 0.2s linear;
+}
+.introduce li:nth-child(1):hover span:nth-child(2){
+	color: #yellow;
+}
+.introduce li:nth-child(2):hover span:nth-child(2){
+	color: #c3d243;
+}
+.introduce li:nth-child(3):hover span:nth-child(2){
+	color: #d38439;
+}
+.introduce li:nth-child(4):hover span:nth-child(2){
+	color: #8e7463;
+}
+.introduce li img{
+	position: absolute;
+	z-index: 1;
+	left: 0px;
+	top: 0px;
+	opacity: 0;
+	-webkit-transition: left 0.4s ease-in-out, opacity 0.6s ease-in-out;
+	-moz-transition: left 0.4s ease-in-out, opacity 0.6s ease-in-out;
+	-o-transition: left 0.4s ease-in-out, opacity 0.6s ease-in-out;
+	-ms-transition: left 0.4s ease-in-out, opacity 0.6s ease-in-out;
+	transition: left 0.4s ease-in-out, opacity 0.6s ease-in-out;
+}
+#team{
+font-family: a키즈;
+}
+.introduce li:hover img{
+
+	left: 300px;
+	opacity: 1;
+}
+
+#pfont {
+	font-family: 헤움숲142;
+	font-size: 20px;
+	color: #7C3803;
+	}
+	
+.dish-info {
+	overflow: hidden;
+	position: relative;
+	height: 200px;
+	width: 600px;
+	border: 5px dashed #e1e1e1;
+	cursor: pointer;
+	clear: both;
+	}
+#dish-info {
+	display: block;
+	}
+.dish-info .images {
+	position: absolute;
+	}
